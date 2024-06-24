@@ -9,14 +9,27 @@ const StyledAppLayout = styled.div`
   grid-template-columns: 26rem 1fr;
   grid-template-rows: auto 1fr;
 `;
+
+const Main = styled.main`
+  background-color: var(--color-grey-100);
+  padding: 4rem 4.8rem 6.4rem;
+  overflow-y: scroll;
+`;
+
+const Container = styled.div`
+  max-width: 120;
+  margin: 0 auto;
+`;
 function AppLayout() {
   return (
     <StyledAppLayout>
       <Header />
       <Sidebar />
-      <main>
-        <Outlet />
-      </main>
+      <Main>
+        <Container>
+          <Outlet />
+        </Container>
+      </Main>
     </StyledAppLayout>
   );
 }
