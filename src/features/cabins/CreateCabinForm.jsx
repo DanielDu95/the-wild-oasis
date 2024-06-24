@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -27,16 +25,28 @@ function CreateCabinForm() {
   });
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
+
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
-  function onError(errors) {}
+  function onError(errors) {
+    console.log(errors);
+  }
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow lable={}
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
+      <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
+          disabled={isCreating}
+          type="text"
+          id="name"
+          {...register("name", {
+            required: "This field is required",
+          })}
+        ></Input>
+      </FormRow>
+      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+        <Input
+          disabled={isCreating}
           type="number"
           id="maxCapacity"
           {...register("maxCapacity", {
@@ -49,9 +59,9 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
+      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
         <Input
+          disabled={isCreating}
           type="number"
           id="regularPrice"
           {...register("regularPrice", {
@@ -60,9 +70,9 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+      <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
+          disabled={isCreating}
           type="number"
           id="discount"
           defaultValue={0}
@@ -75,9 +85,12 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+      <FormRow
+        label="Description for website"
+        error={errors?.description?.message}
+      >
         <Textarea
+          disabled={isCreating}
           type="number"
           id="description"
           defaultValue=""
@@ -87,9 +100,13 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
+        <FileInput
+          id="image"
+          accept="image/*"
+          disabled={isCreating}
+          {...register("image")}
+        />
       </FormRow>
 
       <FormRow>
