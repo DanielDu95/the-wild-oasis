@@ -41,7 +41,6 @@ function Filter({ filterField, options }) {
   function handleClick(value) {
     searchParams.set(filterField, value);
     setSearchParams(searchParams);
-    console.log(searchParams);
   }
   return (
     <StyledFilter>
@@ -49,7 +48,7 @@ function Filter({ filterField, options }) {
         <FilterButton
           key={option.value}
           onClick={() => handleClick(option.value)}
-          active={currentFilter === option.value}
+          active={currentFilter === option.value ? 1 : 0}
           disabled={currentFilter === option.value}
         >
           {option.label}
