@@ -8,12 +8,13 @@ import { useSignup } from "./useSignup";
 // Email regex: /\S+@\S+\.\S+/
 
 function SignupForm() {
-  const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { signup, isLoading } = useSignup();
+  const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
-  function onSubmit({ email, password, fullName }) {
+
+  function onSubmit({ fullName, email, password }) {
     signup(
-      { email, password, fullName },
+      { fullName, email, password },
       {
         onSettled: () => reset(),
       }
@@ -27,9 +28,7 @@ function SignupForm() {
           type="text"
           id="fullName"
           disabled={isLoading}
-          {...register("fullName", {
-            required: "This field is required",
-          })}
+          {...register("fullName", { required: "This field is required" })}
         />
       </FormRow>
 
@@ -42,7 +41,7 @@ function SignupForm() {
             required: "This field is required",
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: "Please provide a valid email",
+              message: "Please provide a valid email address",
             },
           })}
         />
@@ -60,7 +59,7 @@ function SignupForm() {
             required: "This field is required",
             minLength: {
               value: 8,
-              message: "Password needs a minimal of character",
+              message: "Password needs a minimum of 8 characters",
             },
           })}
         />
@@ -81,7 +80,12 @@ function SignupForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" disabled={isLoading}>
+        <Button
+          variation="secondary"
+          type="reset"
+          disabled={isLoading}
+          onClick={reset}
+        >
           Cancel
         </Button>
         <Button disabled={isLoading}>Create new user</Button>

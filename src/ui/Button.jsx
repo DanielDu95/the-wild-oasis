@@ -57,6 +57,9 @@ const Button = styled.button`
   ${(props) => variations[props.variation]}
 `;
 
-Button.defaultProps = { size: "medium", variation: "primary" };
+Button.defaultProps = {
+  variation: "primary",
+  size: "medium",
+};
 
 export default Button;

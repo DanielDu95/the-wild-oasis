@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCabins } from "../../services/apiCabins";
 
 export function useCabins() {

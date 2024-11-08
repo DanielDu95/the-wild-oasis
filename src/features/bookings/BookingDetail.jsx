@@ -12,11 +12,12 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { useNavigate } from "react-router-dom";
-import { HiArrowUpOnSquare, HiTrash } from "react-icons/hi2";
+import { HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
+import Empty from "../../ui/Empty";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -26,12 +27,15 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
-  const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
-  const { deleteBooking, isDeletingBooking } = useDeleteBooking();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const moveBack = useMoveBack();
+  const navigate = useNavigate();
+
   if (isLoading) return <Spinner />;
+  if (!booking) return <Empty resourceName="booking" />;
+
   const { status, id: bookingId } = booking;
 
   const statusToTagName = {
@@ -68,19 +72,21 @@ function BookingDetail() {
             Check out
           </Button>
         )}
+
         <Modal>
           <Modal.Open opens="delete">
-            <Button variation="danger" icon={<HiTrash />}>
-              Delete booking
-            </Button>
+            <Button variation="danger">Delete booking</Button>
           </Modal.Open>
+
           <Modal.Window name="delete">
             <ConfirmDelete
               resourceName="booking"
+              disabled={isDeleting}
               onConfirm={() =>
-                deleteBooking(bookingId, { onSettled: () => navigate(-1) })
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
               }
-              disabled={isDeletingBooking}
             />
           </Modal.Window>
         </Modal>
